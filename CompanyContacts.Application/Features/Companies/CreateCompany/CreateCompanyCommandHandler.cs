@@ -10,6 +10,11 @@ public sealed class CreateCompanyCommandHandler(ICompanyRepository companyRepo) 
 
     public async Task<int> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(request.Name))
+        {
+            throw new ArgumentException("Company name cannot be empty", nameof(request.Name));
+        }
+
         var company = new Company
         {
             Name = request.Name
